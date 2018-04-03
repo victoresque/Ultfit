@@ -1,0 +1,202 @@
+#:kivy 1.10.0
+#:import kivy kivy
+#:import win kivy.core.window
+
+<MainScreen>:
+    BoxLayout:
+        orientation: 'horizontal'
+        BoxLayout:
+            canvas:
+                Color: 
+                    rgba: 0, 0, 0, 0.5
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint: (.4, 1)
+            orientation: 'vertical'
+            Label: 
+                canvas.before:
+                    Color: 
+                        rgba: .75, .25, .1, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint: (1, .1)
+                font_size: 36
+                color: .95, .95, .8, 1
+                text: '< U l t f i t >'
+            BoxLayout:
+                size_hint: (1, .55)
+                BoxLayout:
+                    size_hint: (.9, .9)
+                    orientation: 'vertical'
+                    Camera:
+                        size_hint: (1, .6)
+                        id: camera
+                        resolution: (800, 600)
+                        play: True
+                    BoxLayout:
+                        size_hint: (1, .4)
+                        BoxLayout:
+                            orientation: 'horizontal'
+                            size_hint: (.8, .8)
+                            BoxLayout:
+                                orientation: 'vertical'
+                                size_hint: (.2, .8)
+                                Button:
+                                    on_release:
+                                        root.login()
+                                    font_size: 16
+                                    text: 'Login'
+                                Button:
+                                    on_release:
+                                        root.logout()
+                                    font_size: 16
+                                    text: 'Logout'
+                            Label:
+                                canvas.before:
+                                    Color: 
+                                        rgba: .7, .7, .7, 1
+                                    Rectangle:
+                                        pos: self.pos
+                                        size: self.size
+                                size_hint: (.6, .8)
+                                color: 0, 0, 0, 1
+                                font_size: 20
+                                text: root.info_prompt
+            Button:
+                size_hint: (1, .1)
+                font_size: 20
+                color: .7, .7, .9, 1
+                text: '<< Clothing management'
+                on_release:
+                    root.manager.transition.direction = 'right'
+                    root.manager.current = 'clothing'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: (1, .25)
+                canvas.before:
+                    Color: 
+                        rgba: .9, .9, .9, 1
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                Label: 
+                    size_hint: (1, .05)
+                Label: 
+                    size_hint: (1, .2)
+                    color: 0, 0, 0, 1
+                    font_size: 20
+                    text: 'Weather information'
+                BoxLayout:
+                    orientation: 'horizontal'
+                    size_hint: (1, .75)
+                    Label: 
+                        size_hint: (.75, 1)
+                        color: .2, .2, .4, 1
+                        font_size: 16
+                        text: root.weather_info
+                    Label: 
+                        size_hint: (.25, 1)
+        BoxLayout:
+            canvas:
+                Color: 
+                    rgba: 0, 0, 0, 0.25
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'vertical'
+            size_hint: (.6, 1)
+            Label: 
+                canvas.before:
+                    Color: 
+                        rgba: 0, 0, 0, 0.5
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint: (1, .1)
+                color: .9, .9, .9, 1
+                font_size: 28
+                text: "Today's Outfit for You"
+            BoxLayout:
+                size_hint: (1, .55)
+                orientation: 'horizontal'
+                Image:
+                    source: root.img1
+                Image:
+                    source: root.img2
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: (1, .1)
+                Button:
+                    size_hint: (.25, 1)
+                    color: .8, .4, .4, 1
+                    font_size: 20                
+                    text: '- No!'
+                    on_release:
+                        root.getAnotherOutfit()
+                Button:
+                    size_hint: (.75, 1)
+                    color: .4, .8, .4, 1
+                    font_size: 20
+                    text: '+ Give me now!!'
+                    on_release:
+                        root.sendArduino()
+            Label: 
+                size_hint: (1, .02)
+            Label: 
+                size_hint: (1, .03)
+                color: .6, .2, .2, 1
+                text: 'Based on these instagram posts you followed'
+            BoxLayout:
+                size_hint: (1, .2)
+                Image:
+                    source: root.ig_img1
+                Image:
+                    source: root.ig_img2
+                Image:
+                    source: root.ig_img3
+                Image:
+                    source: root.ig_img4
+<ClothingScreen>:
+    BoxLayout:
+        orientation: 'horizontal'
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: (.66, 1)
+            Camera:
+                id: camera
+                resolution: (800, 600)
+                play: True
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: (.34, 1)
+            AnchorLayout:
+                size_hint: (1, .53)
+                Label: 
+                    size_hint: (.8, .8)
+                    color: 0,0,0,1
+                    id: label_azure
+                    text_size: self.width, None
+                    height: self.texture_size[1]
+                    text: root.result_prompt
+            Button:
+                size_hint: (1, .1)
+                font_size: 20
+                text: 'Add to closet'
+                on_release: root.capture_and_analyze()
+            Button:
+                size_hint: (1, .1)
+                font_size: 20
+                text: 'Add next'
+                on_release: root.add_next_clothing()
+            Button:
+                size_hint: (1, .1)
+                font_size: 20
+                color: .7, .7, .9, 1
+                text: 'Back >>'
+                on_release:
+                    root.manager.transition.direction = 'left'
+                    root.manager.current = 'main'
+            Label:
+                size_hint: (1, .17)
